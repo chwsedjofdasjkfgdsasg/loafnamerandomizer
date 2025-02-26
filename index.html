@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Slot Machine</title> <!-- This is where you rename the site -->
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slot-container {
+            height: 120px; /* Space for movement */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .text {
+            color: white;
+            font-size: 100px;
+            font-family: Arial, sans-serif;
+            display: inline-block;
+            position: relative;
+        }
+
+        #slot {
+            display: inline-block;
+            position: relative;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: white;
+            color: black;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="slot-container">
+        <div class="text">LOA<span id="slot">_</span></div>
+    </div>
+    <button onclick="replaceLetter()">Randomize</button>
+
+    <script>
+        function replaceLetter() {
+            const slotElement = document.getElementById("slot");
+            const letters = ["D", "F"];
+            let cycles = 0;
+            let maxCycles = 10; // Number of letter changes before stopping
+            let delay = 100; // Initial speed
+
+            function fallAnimation(newLetter) {
+                slotElement.style.transition = "transform 0.2s ease-in"; // Smooth fall effect
+                slotElement.style.transform = "translateY(40px)"; // Drop down effect
+                
+                setTimeout(() => {
+                    slotElement.innerText = newLetter;
+                    slotElement.style.transition = "none"; // Reset transition
+                    slotElement.style.transform = "translateY(-40px)"; // Move back up instantly
+                    setTimeout(() => {
+                        slotElement.style.transition = "transform 0.2s ease-out";
+                        slotElement.style.transform = "translateY(0px)"; // Settle into place
+                    }, 50);
+                }, 200);
+            }
+
+            let interval = setInterval(() => {
+                const newLetter = letters[cycles % 2];
+                fallAnimation(newLetter);
+                cycles++;
+
+                // Exponentially slow down animation
+                delay *= 1.2;
+
+                if (cycles >= maxCycles) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        const finalLetter = letters[Math.random() < 0.5 ? 0 : 1];
+                        fallAnimation(finalLetter); // Final letter lands properly
+                    }, delay);
+                }
+            }, delay);
+        }
+    </script>
+</body>
