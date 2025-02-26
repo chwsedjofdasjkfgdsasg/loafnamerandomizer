@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letter Slot Machine</title>
+    <title>Letter Slot Machine</title> <!-- This is where you rename the site -->
     <style>
         body {
             background-color: black;
@@ -60,16 +60,12 @@
     </div>
     <button onclick="replaceLetter()">Randomize</button>
 
-    <!-- Audio Elements -->
-    <audio id="audioD" src="audio/d.mp3"></audio> <!-- Audio for D -->
-    <audio id="audioF" src="audio/f.mp3"></audio> <!-- Audio for F -->
-
     <script>
         function replaceLetter() {
             const slotElement = document.getElementById("slot");
             const letters = ["D", "F"];
             let cycles = 0;
-            let maxCycles = 25; // Number of letter changes before stopping
+            let maxCycles = 10; // Number of letter changes before stopping
             let delay = 100; // Initial speed
 
             function fallAnimation(newLetter) {
@@ -85,13 +81,6 @@
                         slotElement.style.transform = "translateY(0px)"; // Settle into place
                     }, 50);
                 }, 200);
-
-                // Play the audio for the current letter
-                if (newLetter === "D") {
-                    document.getElementById("audioD").play(); // Play D sound
-                } else if (newLetter === "F") {
-                    document.getElementById("audioF").play(); // Play F sound
-                }
             }
 
             let interval = setInterval(() => {
@@ -113,4 +102,3 @@
         }
     </script>
 </body>
-</html>
